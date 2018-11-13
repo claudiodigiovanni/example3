@@ -1,0 +1,46 @@
+<!-- <form #myform="ngForm" >
+
+  <div class="form-group">
+    <label for="idx">id</label>
+    <input type="text" class="form-control" name="idx" id="idx"  placeholder="id" [(ngModel)]="course.id">
+   
+  </div>
+
+  <div class="form-group">
+      <label for="idx">description</label>
+      <input type="text" class="form-control" name="description" id="description"  placeholder="description"  required minlength="3" [(ngModel)]="course.description">
+     
+    </div>
+
+    <div class="form-group">
+        <label for="idx">category</label>
+        <input type="text" class="form-control" name="category" id="category"  placeholder="category"  [(ngModel)]="course.category">
+       
+      </div>
+
+<button type="button" name="" id="" class="btn btn-dark btn-lg btn-block" (click)="save()" [disabled]="myform.invalid">save</button>
+</form>  -->
+
+ <form [formGroup]="myform">
+    <div class="form-group">
+        <label for="idx">id</label>
+        <input type="text" class="form-control" name="idx" id="idx"  placeholder="id" formControlName="id">
+       
+      </div>
+
+      <div class="form-group">
+          <label for="description">id</label>
+          <input type="text" class="form-control" name="description" id="description"  placeholder="description" formControlName="description">
+         
+        </div>
+
+        <div class="form-group">
+            <label for="category">category</label>
+            <input type="text" class="form-control" name="category" id="category"  placeholder="category" formControlName="category">
+           
+          </div>
+
+          <button type="button" name="" id="" class="btn btn-dark btn-lg btn-block" (click)="save()" [disabled]="myform.invalid">save</button>
+</form>
+ 
+{{course| json}}

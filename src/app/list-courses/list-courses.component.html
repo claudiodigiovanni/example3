@@ -1,0 +1,9 @@
+<table>
+  <th>id</th><th>description</th><th>category</th>
+  <tr *ngFor="let c of courses" (click)="selectCourse(c)">
+    <td>{{c.id}}</td>
+    <td>{{c.description}}</td>
+    <td>{{c.category}}</td>
+  </tr>
+</table>
+
