@@ -29,18 +29,34 @@
       </div>
 
       <div class="form-group">
-          <label for="description">id</label>
+          <label for="description">description</label>
           <input type="text" class="form-control" name="description" id="description"  placeholder="description" formControlName="description">
          
         </div>
 
         <div class="form-group">
             <label for="category">category</label>
-            <input type="text" class="form-control" name="category" id="category"  placeholder="category" formControlName="category">
+            <input type="text" (keypress)="showDiv()" class="form-control" name="category"  id="category"  placeholder="category" formControlName="category">
            
           </div>
 
+          <div class="search-result" *ngIf='visibleDiv'>  
+              <ul>  
+                  <li *ngFor="let u of users$ | async ">  
+                      <a (click)="onselectClient(u)">{{u.name}}</a>  
+                  </li>             
+              </ul>  
+          </div>  
+
+          
+
+          <label formArrayName="options" *ngFor="let opt of options1.controls ; let i = index">
+            <input type="checkbox" [formControlName]="i"> 
+            {{optionsList[i]}} &nbsp;&nbsp;&nbsp;  
+          </label>
+
+          
           <button type="button" name="" id="" class="btn btn-dark btn-lg btn-block" (click)="save()" [disabled]="myform.invalid">save</button>
 </form>
  
-{{course| json}}
+{{myform.value | json}}

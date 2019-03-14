@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MyserviceService } from '../shared/myservice.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms';
+import { CourseDetailComponent } from '../course-detail/course-detail.component';
+import { fromEvent, Observable } from 'rxjs';
+
+import {debounceTime,distinctUntilChanged, switchMap, tap} from 'rxjs/operators'
 
 @Component({
   selector: 'app-edit-course',
@@ -14,18 +18,51 @@ export class EditCourseComponent implements OnInit {
 
   course:any;
 
+  users$: any;
+
+  visibleDiv = true;
+
+  
+
   constructor(private router:Router, private route:ActivatedRoute, private myservice:MyserviceService, private fb:FormBuilder) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.course = this.myservice.findCourse(params.get('id'))
+      this.course = {...this.course, category:'', options:[false,false]}
     })
 
-     this.myform = this.fb.group({
+    this.myform = this.fb.group({
       id: this.course.id,
       description:[this.course.description, [Validators.required, Validators.minLength(4)]],
-      category:this.course.category
-    }) 
+      category:this.course.category,
+      options: this.fb.array([
+        this.fb.control(this.course.options[0]),
+        this.fb.control(this.course.options[1])
+
+      ])
+    })
+
+  
+
+    this.users$ =this.myform.get('category').valueChanges.pipe(
+      debounceTime(300),       
+      distinctUntilChanged(),  
+      tap(term => this.visibleDiv = true),
+      switchMap(term => this.myservice.getUsers(term))
+    )
+
+  }
+
+
+  showDiv(){
+    this.visibleDiv = true
+  }
+
+  optionsList = ['uno','due']
+
+  get options1() {
+    return this.myform.get('options') as FormArray;
   }
 
    /* save(){
@@ -36,9 +73,16 @@ export class EditCourseComponent implements OnInit {
    save(){
     console.log(this.myform.value);
     
-    this.myservice.updateCourse(this.myform.value)
-    this.router.navigate(['/'])
+    /*this.myservice.updateCourse(this.myform.value)
+    this.router.navigate(['/'])*/
   } 
+
+  onselectClient(ClientObj) {   
+    this.myform.get('category').setValue(ClientObj.name);
+    this.visibleDiv = false
+    
+    
+  }
 
 
 }

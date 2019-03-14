@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 
+import {HttpClientModule} from '@angular/common/http'
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LibroComponent } from './libro/libro.component';
@@ -31,7 +33,8 @@ import { My2Component } from './my2/my2.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    UiModule
+    UiModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
