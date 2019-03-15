@@ -14,7 +14,7 @@ import {debounceTime,distinctUntilChanged, switchMap, tap} from 'rxjs/operators'
 })
 export class EditCourseComponent implements OnInit {
 
-  myform:FormGroup;
+  myform:FormGroup; 
 
   course:any;
 
